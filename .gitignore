@@ -1,0 +1,12 @@
+# Amper
+.amper/
+build/
+
+# IDE
+.idea/
+*.iml
+.fleet/
+
+# OS
+.DS_Store
+Thumbs.db
