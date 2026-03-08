@@ -2,6 +2,9 @@
 .amper/
 build/
 
+# Tool cache
+.cache/
+
 # IDE
 .idea/
 *.iml

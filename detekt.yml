@@ -1,0 +1,77 @@
+complexity:
+  CyclomaticComplexMethod:
+    active: true
+    allowedComplexity: 15
+  LargeClass:
+    active: true
+    excludes:
+      - "**/test/**"
+  LongMethod:
+    active: true
+    allowedLines: 60
+    excludes:
+      - "**/test/**"
+  LongParameterList:
+    active: true
+    allowedFunctionParameters: 6
+    allowedConstructorParameters: 6
+    ignoreDefaultParameters: true
+  TooManyFunctions:
+    active: true
+    allowedFunctionsPerFile: 15
+    allowedFunctionsPerClass: 15
+    allowedFunctionsPerInterface: 10
+    allowedFunctionsPerObject: 10
+    allowedFunctionsPerEnum: 10
+
+coroutines:
+  active: true
+
+empty-blocks:
+  active: true
+
+exceptions:
+  active: true
+  TooGenericExceptionCaught:
+    active: true
+    allowedExceptionNameRegex: "_|(ignore|expected).*"
+
+naming:
+  active: true
+  FunctionNaming:
+    active: true
+    excludes:
+      - "**/test/**"
+  TopLevelPropertyNaming:
+    active: true
+    constantPattern: "[A-Z][A-Za-z0-9]*"
+
+performance:
+  active: true
+
+potential-bugs:
+  active: true
+
+style:
+  active: true
+  MagicNumber:
+    active: true
+    excludes:
+      - "**/test/**"
+    ignoreNumbers:
+      - "-1"
+      - "0"
+      - "1"
+      - "2"
+  MaxLineLength:
+    active: true
+    maxLineLength: 120
+    excludeCommentStatements: true
+  ReturnCount:
+    active: true
+    max: 3
+    excludeLabeled: true
+  WildcardImport:
+    active: true
+    excludeImports:
+      - "kotlin.test.*"

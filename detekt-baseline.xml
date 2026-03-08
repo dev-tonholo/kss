@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:CommentTokenConsumer.kt:CommentTokenConsumer$char == '-' &amp;&amp; iterator.peek(1) == '-' &amp;&amp; iterator.peek(2) == '!' &amp;&amp; iterator.peek(offset = 3) == '&gt;'</ID>
+    <ID>LongMethod:AtRuleConsumer.kt:AtRuleConsumer$override fun consume: AtRule</ID>
+    <ID>LongMethod:SimpleSelectorConsumer.kt:SimpleSelectorConsumer$override fun consume: Selector</ID>
+    <ID>LoopWithTooManyJumpStatements:SelectorListItemConsumer.kt:SelectorListItemConsumer$while</ID>
+    <ID>LoopWithTooManyJumpStatements:ValueConsumer.kt:ValueConsumer$do</ID>
+    <ID>MagicNumber:AstParserException.kt:AstParserException$4</ID>
+    <ID>MagicNumber:UrlTokenConsumer.kt:UrlTokenConsumer$4</ID>
+    <ID>MagicNumber:ValueConsumer.kt:ValueConsumer$4</ID>
+    <ID>TopLevelPropertyNaming:StringTokenConsumer.kt:private const val ESCAPE_CHAR = '\\'</ID>
+  </CurrentIssues>
+</SmellBaseline>
