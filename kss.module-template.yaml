@@ -1,0 +1,6 @@
+settings:
+  kotlin:
+    languageVersion: "2.3"
+
+test-dependencies:
+  - $kotlin.test
