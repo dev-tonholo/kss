@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.tonholo.kss.demo.model.AstDisplayNode
-import dev.tonholo.kss.demo.state.AppState
+import dev.tonholo.kss.demo.state.UiState
 
 private val ErrorFontSize = 12.sp
 private const val ERROR_BANNER_ALPHA = 0.15f
@@ -32,12 +32,16 @@ private const val ERROR_MAX_LINES = 3
  * Displays the flattened CSS AST nodes in a [LazyColumn][androidx.compose.foundation.lazy.LazyColumn],
  * auto-scrolls to the node matching the current editor cursor, and shows parse errors in a banner.
  *
- * @param state The shared [AppState] providing the visible AST nodes and error information.
+ * @param state The [UiState] providing the visible AST nodes and error information.
+ * @param onToggleCollapse Callback when a node's collapse state is toggled.
+ * @param onNodeClick Callback when an AST node is clicked.
  * @param modifier Optional [Modifier] applied to the root layout.
  */
 @Composable
 fun AstTreePanel(
-    state: AppState,
+    state: UiState,
+    onToggleCollapse: (Int) -> Unit,
+    onNodeClick: (AstDisplayNode) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val lazyListState = rememberLazyListState()
@@ -67,8 +71,8 @@ fun AstTreePanel(
                 nodes = nodes,
                 highlightedIndex = highlightedIndex,
                 collapsedNodeIds = state.collapsedNodeIds,
-                onToggleCollapse = state::toggleCollapse,
-                onNodeClick = state::onAstNodeClicked,
+                onToggleCollapse = onToggleCollapse,
+                onNodeClick = onNodeClick,
                 lazyListState = lazyListState
             )
         }

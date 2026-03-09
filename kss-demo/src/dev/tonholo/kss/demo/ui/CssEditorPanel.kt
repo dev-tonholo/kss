@@ -29,7 +29,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.tonholo.kss.demo.state.AppState
+import dev.tonholo.kss.demo.state.UiState
 
 private val EditorFontSize = 14.sp
 private val LineNumberWidth = 48.dp
@@ -42,12 +42,18 @@ private const val LINE_HEIGHT_MULTIPLIER = 1.5f
  * the highlighted AST node, and clicking an AST node selects the corresponding CSS range.
  * Parse/tokenize errors are visually underlined at the offending offset.
  *
- * @param state The shared [AppState] driving the editor content and error information.
+ * @param state The [UiState] driving the editor content and error information.
+ * @param onCssTextChange Callback when the CSS text changes.
+ * @param onCursorOffsetChange Callback when the cursor position changes.
+ * @param onClearSelection Callback to clear the AST-driven selection.
  * @param modifier Optional [Modifier] applied to the root layout.
  */
 @Composable
 fun CssEditorPanel(
-    state: AppState,
+    state: UiState,
+    onCssTextChange: (String) -> Unit,
+    onCursorOffsetChange: (Int) -> Unit,
+    onClearSelection: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var textFieldValue by remember(state.cssText) {
@@ -100,9 +106,9 @@ fun CssEditorPanel(
             value = textFieldValue,
             onValueChange = { newValue ->
                 textFieldValue = newValue
-                state.onCssTextChange(newValue.text)
-                state.onCursorOffsetChange(newValue.selection.start)
-                state.clearSelection()
+                onCssTextChange(newValue.text)
+                onCursorOffsetChange(newValue.selection.start)
+                onClearSelection()
             },
             visualTransformation = visualTransformation,
             verticalScroll = verticalScroll,

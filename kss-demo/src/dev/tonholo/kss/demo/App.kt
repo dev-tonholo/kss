@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.tonholo.kss.demo.state.AppState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.tonholo.kss.demo.state.AppViewModel
 import dev.tonholo.kss.demo.ui.AstTreePanel
 import dev.tonholo.kss.demo.ui.CssEditorPanel
 
@@ -25,12 +27,16 @@ private const val PANEL_WEIGHT = 0.5f
  */
 @Composable
 fun App(modifier: Modifier = Modifier) {
-    val state = remember { AppState() }
+    val viewModel = viewModel { AppViewModel() }
+    val state by viewModel.uiState.collectAsState()
 
     Row(modifier = modifier.fillMaxSize()) {
         CssEditorPanel(
             state = state,
-            modifier = Modifier.weight(PANEL_WEIGHT)
+            onCssTextChange = viewModel::onCssTextChange,
+            onCursorOffsetChange = viewModel::onCursorOffsetChange,
+            onClearSelection = viewModel::clearSelection,
+            modifier = Modifier.weight(PANEL_WEIGHT),
         )
 
         Box(
@@ -43,7 +49,9 @@ fun App(modifier: Modifier = Modifier) {
 
         AstTreePanel(
             state = state,
-            modifier = Modifier.weight(PANEL_WEIGHT)
+            onToggleCollapse = viewModel::toggleCollapse,
+            onNodeClick = viewModel::onAstNodeClicked,
+            modifier = Modifier.weight(PANEL_WEIGHT),
         )
     }
 }
