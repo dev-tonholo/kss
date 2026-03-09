@@ -15,25 +15,36 @@ class HashTokenConsumer(
 
     override fun consume(kind: CssTokenKind): List<Token<out CssTokenKind>> {
         val next = iterator.peek(1)
-        return if (next != Char.EMPTY && next.isHexDigit()) {
-            var backwardLookupOffset = 0
-            while (true) {
-                val prev = iterator.peek(--backwardLookupOffset)
-                if (prev == Char.EMPTY || prev.isWhitespace().not()) {
-                    break
-                }
-            }
-
-            if (iterator.peek(backwardLookupOffset) in CssTokenKind.Colon) {
-                listOf(
-                    Token(CssTokenKind.Hash, iterator.offset, iterator.nextOffset()),
-                    handleHexDigit(start = iterator.offset)
-                )
-            } else {
-                listOf(Token(CssTokenKind.Hash, iterator.offset, iterator.nextOffset()))
-            }
+        return if (next != Char.EMPTY && next.isHexDigit() && isInValueContext()) {
+            listOf(
+                Token(CssTokenKind.Hash, iterator.offset, iterator.nextOffset()),
+                handleHexDigit(start = iterator.offset)
+            )
         } else {
             listOf(Token(CssTokenKind.Hash, iterator.offset, iterator.nextOffset()))
+        }
+    }
+
+    /**
+     * Checks whether the `#` appears in a CSS value context (i.e., after a `:`
+     * somewhere earlier on the same line/declaration). This handles cases like
+     * `color: #f0f` as well as `border: 1px solid #3e3e42` where there are
+     * multiple tokens between the colon and the hash.
+     */
+    private fun isInValueContext(): Boolean {
+        var lookback = -1
+        while (true) {
+            val prev = iterator.peek(lookback)
+            if (prev == Char.EMPTY) return false
+            if (prev in CssTokenKind.Colon) return true
+            // Stop searching at block boundaries — we've left the declaration
+            if (prev in CssTokenKind.OpenCurlyBrace ||
+                prev in CssTokenKind.CloseCurlyBrace ||
+                prev in CssTokenKind.Semicolon
+            ) {
+                return false
+            }
+            lookback--
         }
     }
 
