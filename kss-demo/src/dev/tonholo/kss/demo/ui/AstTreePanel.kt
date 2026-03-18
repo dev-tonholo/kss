@@ -35,6 +35,9 @@ private const val ERROR_MAX_LINES = 3
  * @param state The [UiState] providing the visible AST nodes and error information.
  * @param onToggleCollapse Callback when a node's collapse state is toggled.
  * @param onNodeClick Callback when an AST node is clicked.
+ * @param onFilterQueryChange Callback when the AST filter query changes.
+ * @param onCloseFilter Callback when the AST filter bar is closed.
+ * @param onToggleNodeDetails Callback when a node's detail expansion is toggled.
  * @param modifier Optional [Modifier] applied to the root layout.
  */
 @Composable
@@ -42,6 +45,9 @@ fun AstTreePanel(
     state: UiState,
     onToggleCollapse: (Int) -> Unit,
     onNodeClick: (AstDisplayNode) -> Unit,
+    onFilterQueryChange: (String) -> Unit,
+    onCloseFilter: () -> Unit,
+    onToggleNodeDetails: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val lazyListState = rememberLazyListState()
@@ -60,6 +66,15 @@ fun AstTreePanel(
     ) {
         PanelHeader(title = "AST Tree", shortcutHint = "Ctrl+Shift+F filter")
 
+        if (state.astFilterVisible) {
+            AstFilterBar(
+                query = state.astFilterQuery,
+                onQueryChange = onFilterQueryChange,
+                matchCount = state.astFilterMatchIds.size,
+                onClose = onCloseFilter,
+            )
+        }
+
         val error = state.parseError
         if (error != null) {
             ParseErrorBanner(error = error)
@@ -73,9 +88,13 @@ fun AstTreePanel(
                 nodes = nodes,
                 highlightedIndex = highlightedIndex,
                 collapsedNodeIds = state.collapsedNodeIds,
+                filterMatchIds = state.astFilterMatchIds,
+                isFilterActive = state.astFilterVisible && state.astFilterQuery.isNotEmpty(),
+                expandedDetailNodeIds = state.expandedDetailNodeIds,
                 onToggleCollapse = onToggleCollapse,
                 onNodeClick = onNodeClick,
-                lazyListState = lazyListState
+                onToggleNodeDetails = onToggleNodeDetails,
+                lazyListState = lazyListState,
             )
         }
     }
@@ -124,8 +143,12 @@ private fun AstNodeList(
     nodes: List<AstDisplayNode>,
     highlightedIndex: Int?,
     collapsedNodeIds: Set<Int>,
+    filterMatchIds: Set<Int>,
+    isFilterActive: Boolean,
+    expandedDetailNodeIds: Set<Int>,
     onToggleCollapse: (Int) -> Unit,
     onNodeClick: (AstDisplayNode) -> Unit,
+    onToggleNodeDetails: (Int) -> Unit,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
@@ -142,7 +165,9 @@ private fun AstNodeList(
                 isHighlighted = index == highlightedIndex,
                 isCollapsed = node.id in collapsedNodeIds,
                 onToggleCollapse = { onToggleCollapse(node.id) },
-                onClick = { onNodeClick(node) }
+                onClick = { onNodeClick(node) },
+                isFilterMatch = node.id in filterMatchIds || filterMatchIds.isEmpty(),
+                isFilterActive = isFilterActive,
             )
         }
     }

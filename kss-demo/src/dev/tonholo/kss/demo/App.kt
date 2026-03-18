@@ -43,6 +43,9 @@ fun App(modifier: Modifier = Modifier) {
                 state = state,
                 onToggleCollapse = viewModel::toggleCollapse,
                 onNodeClick = viewModel::onAstNodeClicked,
+                onFilterQueryChange = viewModel::searchAstTree,
+                onCloseFilter = viewModel::clearAstFilter,
+                onToggleNodeDetails = viewModel::toggleNodeDetails,
                 modifier = panelModifier,
             )
         },
