@@ -4,6 +4,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -95,25 +96,28 @@ fun CssEditorPanel(
     val horizontalScroll = rememberScrollState()
     val lineCount = remember(state.cssText) { state.cssText.count { it == '\n' } + 1 }
 
-    Row(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
     ) {
-        LineNumberGutter(lineCount = lineCount, verticalScroll = verticalScroll)
-        EditorTextField(
-            value = textFieldValue,
-            onValueChange = { newValue ->
-                textFieldValue = newValue
-                onCssTextChange(newValue.text)
-                onCursorOffsetChange(newValue.selection.start)
-                onClearSelection()
-            },
-            visualTransformation = visualTransformation,
-            verticalScroll = verticalScroll,
-            horizontalScroll = horizontalScroll
-        )
+        PanelHeader(title = "CSS Editor", shortcutHint = "Ctrl+F search")
+
+        Row(modifier = Modifier.weight(1f)) {
+            LineNumberGutter(lineCount = lineCount, verticalScroll = verticalScroll)
+            EditorTextField(
+                value = textFieldValue,
+                onValueChange = { newValue ->
+                    textFieldValue = newValue
+                    onCssTextChange(newValue.text)
+                    onCursorOffsetChange(newValue.selection.start)
+                    onClearSelection()
+                },
+                visualTransformation = visualTransformation,
+                verticalScroll = verticalScroll,
+                horizontalScroll = horizontalScroll,
+            )
+        }
     }
 }
 

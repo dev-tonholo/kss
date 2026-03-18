@@ -58,6 +58,8 @@ fun AstTreePanel(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
     ) {
+        PanelHeader(title = "AST Tree", shortcutHint = "Ctrl+Shift+F filter")
+
         val error = state.parseError
         if (error != null) {
             ParseErrorBanner(error = error)
