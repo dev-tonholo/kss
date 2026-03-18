@@ -172,11 +172,8 @@ private fun AstNodeList(
                 isCollapsed = node.id in collapsedNodeIds,
                 onToggleCollapse = { onToggleCollapse(node.id) },
                 onClick = {
-                    if (index == highlightedIndex) {
-                        onToggleNodeDetails(node.id)
-                    } else {
-                        onNodeClick(node)
-                    }
+                    onNodeClick(node)
+                    onToggleNodeDetails(node.id)
                 },
                 isFilterMatch = node.id in filterMatchIds || filterMatchIds.isEmpty(),
                 isFilterActive = isFilterActive,
