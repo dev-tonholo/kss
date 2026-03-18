@@ -1,5 +1,8 @@
 package dev.tonholo.kss.demo
 
+import androidx.compose.material3.LocalRippleConfiguration
+import androidx.compose.material3.RippleConfiguration
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
 import dev.tonholo.kss.demo.theme.AppTheme
@@ -24,7 +27,9 @@ fun main() {
 
     ComposeViewport(root) {
         AppTheme {
-            App()
+            CompositionLocalProvider(LocalRippleConfiguration provides RippleConfiguration()) {
+                App()
+            }
         }
     }
 }

@@ -11,3 +11,4 @@ settings:
 dependencies:
   - ../kss-demo
   - $compose.desktop.currentOs
+  - $libs.org.jetbrains.kotlinx.coroutinesSwing

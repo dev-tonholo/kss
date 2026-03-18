@@ -13,6 +13,7 @@ dependencies:
   - ../kss-parser
   - $compose.foundation: exported
   - $libs.compose.material3: exported
+  - $libs.compose.material.iconsCore: exported
   - $libs.androidx.lifecycle.viewmodelCompose: exported
   - $libs.androidx.lifecycle.runtimeCompose: exported
   - $libs.org.jetbrains.kotlinx.coroutinesCore: exported

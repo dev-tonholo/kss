@@ -10,6 +10,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -82,39 +87,36 @@ fun EditorSearchBar(
         }
 
         // Up button
-        Text(
-            text = "\u25B2",
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowUp,
+            contentDescription = "Previous match",
             modifier = Modifier
                 .size(ButtonSize)
                 .clickable(onClick = onNavigateUp)
                 .padding(4.dp),
-            style = MaterialTheme.typography.labelSmall.copy(
-                color = MaterialTheme.colorScheme.onSurface,
-            ),
+            tint = MaterialTheme.colorScheme.onSurface,
         )
 
         // Down button
-        Text(
-            text = "\u25BC",
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowDown,
+            contentDescription = "Next match",
             modifier = Modifier
                 .size(ButtonSize)
                 .clickable(onClick = onNavigateDown)
                 .padding(4.dp),
-            style = MaterialTheme.typography.labelSmall.copy(
-                color = MaterialTheme.colorScheme.onSurface,
-            ),
+            tint = MaterialTheme.colorScheme.onSurface,
         )
 
         // Close button
-        Text(
-            text = "\u2715",
+        Icon(
+            imageVector = Icons.Default.Close,
+            contentDescription = "Close search",
             modifier = Modifier
                 .size(ButtonSize)
                 .clickable(onClick = onClose)
                 .padding(4.dp),
-            style = MaterialTheme.typography.labelSmall.copy(
-                color = MaterialTheme.colorScheme.onSurface,
-            ),
+            tint = MaterialTheme.colorScheme.onSurface,
         )
     }
 }

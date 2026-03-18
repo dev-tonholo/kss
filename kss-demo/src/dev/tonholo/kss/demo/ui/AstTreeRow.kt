@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +29,6 @@ import dev.tonholo.kss.demo.model.AstDisplayNode
 private val IndentStep = 16.dp
 private val NodeFontSize = 13.sp
 private val CollapseToggleSize = 20.dp
-private val CollapseToggleFontSize = 10.sp
 private val HighlightColor = Color(0xFF264F78)
 
 /**
@@ -71,18 +74,15 @@ fun AstTreeRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (node.hasChildren) {
-            Text(
-                text = if (isCollapsed) "\u25B6" else "\u25BC",
+            Icon(
+                imageVector = if (isCollapsed) Icons.AutoMirrored.Default.KeyboardArrowRight else Icons.Default.KeyboardArrowDown,
+                contentDescription = if (isCollapsed) "Expand" else "Collapse",
                 modifier =
                     Modifier
                         .size(CollapseToggleSize)
                         .clickable(onClick = onToggleCollapse)
                         .padding(2.dp),
-                style =
-                    MaterialTheme.typography.bodySmall.copy(
-                        fontSize = CollapseToggleFontSize,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                tint = MaterialTheme.colorScheme.onSurface,
             )
         } else {
             Spacer(modifier = Modifier.width(CollapseToggleSize))

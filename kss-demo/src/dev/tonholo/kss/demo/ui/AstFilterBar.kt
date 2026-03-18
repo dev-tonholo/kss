@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 private val FilterFontSize = 13.sp
-private val CloseButtonSize = 24.dp
+private val IconSize = 24.dp
 
 /**
  * An integrated filter bar for the AST tree panel.
@@ -48,11 +52,11 @@ fun AstFilterBar(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         // Search icon
-        Text(
-            text = "\uD83D\uDD0D", // magnifying glass
-            style = MaterialTheme.typography.labelSmall.copy(
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            ),
+        Icon(
+            imageVector = Icons.Default.Search,
+            contentDescription = "Filter",
+            modifier = Modifier.size(IconSize).padding(2.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
         BasicTextField(
@@ -79,15 +83,14 @@ fun AstFilterBar(
         }
 
         // Close button
-        Text(
-            text = "\u2715", // X mark
+        Icon(
+            imageVector = Icons.Default.Close,
+            contentDescription = "Close filter",
             modifier = Modifier
-                .size(CloseButtonSize)
+                .size(IconSize)
                 .clickable(onClick = onClose)
                 .padding(4.dp),
-            style = MaterialTheme.typography.labelSmall.copy(
-                color = MaterialTheme.colorScheme.onSurface,
-            ),
+            tint = MaterialTheme.colorScheme.onSurface,
         )
     }
 }
