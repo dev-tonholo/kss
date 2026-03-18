@@ -117,7 +117,7 @@ private fun tokenize(
     css: String,
 ): Pair<List<Token<out CssTokenKind>>, ParseErrorInfo?> = try {
     CssTokenizer().tokenize(css) to null
-} catch (expected: IllegalStateException) {
+} catch (expected: Exception) {
     emptyList<Token<out CssTokenKind>>() to ParseErrorInfo.from(expected)
 }
 
@@ -128,7 +128,7 @@ private fun parse(
     val consumers = CssConsumers(css)
     val styleSheet = CssParser(consumers).parse(tokens)
     styleSheet to null
-} catch (expected: IllegalStateException) {
+} catch (expected: Exception) {
     null to ParseErrorInfo.from(expected)
 }
 
