@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Build the kss-demo-web module and serve it locally with a dev server.
+# Build the demo/web module and serve it locally with a dev server.
 # Requires Node.js (>= 18) and npm.
 #
 # Usage:
@@ -10,17 +10,17 @@
 set -euo pipefail
 
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-BUILD_OUTPUT="$PROJECT_DIR/build/tasks/_kss-demo-web_linkWasmJs"
+BUILD_OUTPUT="$PROJECT_DIR/build/tasks/_web_linkWasmJs"
 SERVE_DIR="$PROJECT_DIR/build/web-dev"
 AMPER_CACHE="$HOME/Library/Caches/JetBrains/Amper/.m2.cache"
 
 # --- Build ---
 if [ "${1:-}" != "--skip-build" ]; then
-    echo "Building kss-demo-web..."
-    "$PROJECT_DIR/amper" build -m kss-demo-web
+    echo "Building demo/web..."
+    "$PROJECT_DIR/amper" build -m demo/web
 fi
 
-if [ ! -f "$BUILD_OUTPUT/kss-demo-web.wasm" ]; then
+if [ ! -f "$BUILD_OUTPUT/web.wasm" ]; then
     echo "Error: Build output not found at $BUILD_OUTPUT"
     echo "Run without --skip-build first."
     exit 1
@@ -32,7 +32,7 @@ SKIKO_JAR=$(find "$AMPER_CACHE" -path "*/skiko-js-wasm-runtime/*/skiko-js-wasm-r
 
 if [ -z "$SKIKO_JAR" ]; then
     echo "Error: skiko-js-wasm-runtime jar not found in Amper cache."
-    echo "Run a full build first: ./amper build -m kss-demo-web"
+    echo "Run a full build first: ./amper build -m demo/web"
     exit 1
 fi
 
@@ -43,15 +43,15 @@ rm -rf "$SERVE_DIR"
 mkdir -p "$SERVE_DIR"
 
 # Copy Kotlin/WASM build artifacts
-cp "$BUILD_OUTPUT"/kss-demo-web.mjs "$SERVE_DIR/"
-cp "$BUILD_OUTPUT"/kss-demo-web.uninstantiated.mjs "$SERVE_DIR/"
-cp "$BUILD_OUTPUT"/kss-demo-web.wasm "$SERVE_DIR/"
+cp "$BUILD_OUTPUT"/web.mjs "$SERVE_DIR/"
+cp "$BUILD_OUTPUT"/web.uninstantiated.mjs "$SERVE_DIR/"
+cp "$BUILD_OUTPUT"/web.wasm "$SERVE_DIR/"
 
 # Extract skiko runtime (skiko.mjs, skiko.wasm)
 unzip -qo "$SKIKO_JAR" skiko.mjs skiko.wasm -d "$SERVE_DIR/"
 
 # Copy index.html
-cp "$PROJECT_DIR/kss-demo-web/index.html" "$SERVE_DIR/"
+cp "$PROJECT_DIR/demo/web/index.html" "$SERVE_DIR/"
 
 # Create a minimal package.json for the dev server
 cat > "$SERVE_DIR/package.json" <<'PACKAGE_EOF'

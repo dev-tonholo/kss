@@ -2,11 +2,11 @@ product:
   type: wasm-js/app
 
 apply:
-  - ../kss.module-template.yaml
+  - ../../kss.module-template.yaml
 
 settings:
   compose:
     enabled: true
 
 dependencies:
-  - ../kss-demo
+  - ../shared

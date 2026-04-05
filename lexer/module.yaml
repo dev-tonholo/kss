@@ -15,4 +15,4 @@ apply:
   - ../kss.module-template.yaml
 
 dependencies:
-  - ../kss-core: exported
+  - ../core: exported

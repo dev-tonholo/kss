@@ -3,14 +3,14 @@ product:
   platforms: [jvm, wasmJs]
 
 apply:
-  - ../kss.module-template.yaml
+  - ../../kss.module-template.yaml
 
 settings:
   compose:
     enabled: true
 
 dependencies:
-  - ../kss-parser
+  - ../../parser
   - $compose.foundation: exported
   - $libs.compose.material3: exported
   - $libs.compose.material.iconsCore: exported

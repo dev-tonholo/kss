@@ -70,8 +70,15 @@ run_ktlint_check() {
     "$KTLINT_BIN" \
         -R "$COMPOSE_RULES_KTLINT_JAR" \
         --editorconfig="$PROJECT_DIR/.editorconfig" \
-        "$PROJECT_DIR/kss-*/src/**/*.kt" \
-        "$PROJECT_DIR/kss-*/test/**/*.kt"
+        "$PROJECT_DIR/core/src/**/*.kt" \
+        "$PROJECT_DIR/core/test/**/*.kt" \
+        "$PROJECT_DIR/lexer/src/**/*.kt" \
+        "$PROJECT_DIR/lexer/test/**/*.kt" \
+        "$PROJECT_DIR/parser/src/**/*.kt" \
+        "$PROJECT_DIR/parser/test/**/*.kt" \
+        "$PROJECT_DIR/demo/shared/src/**/*.kt" \
+        "$PROJECT_DIR/demo/desktop/src/**/*.kt" \
+        "$PROJECT_DIR/demo/web/src/**/*.kt"
 }
 
 run_ktlint_format() {
@@ -82,8 +89,15 @@ run_ktlint_format() {
         --format \
         -R "$COMPOSE_RULES_KTLINT_JAR" \
         --editorconfig="$PROJECT_DIR/.editorconfig" \
-        "$PROJECT_DIR/kss-*/src/**/*.kt" \
-        "$PROJECT_DIR/kss-*/test/**/*.kt"
+        "$PROJECT_DIR/core/src/**/*.kt" \
+        "$PROJECT_DIR/core/test/**/*.kt" \
+        "$PROJECT_DIR/lexer/src/**/*.kt" \
+        "$PROJECT_DIR/lexer/test/**/*.kt" \
+        "$PROJECT_DIR/parser/src/**/*.kt" \
+        "$PROJECT_DIR/parser/test/**/*.kt" \
+        "$PROJECT_DIR/demo/shared/src/**/*.kt" \
+        "$PROJECT_DIR/demo/desktop/src/**/*.kt" \
+        "$PROJECT_DIR/demo/web/src/**/*.kt"
 }
 
 run_detekt() {
@@ -91,7 +105,7 @@ run_detekt() {
     download_compose_rules
     echo "Running detekt..."
     "$DETEKT_BIN" \
-        --input "$PROJECT_DIR/kss-core/src,$PROJECT_DIR/kss-lexer/src,$PROJECT_DIR/kss-parser/src,$PROJECT_DIR/kss-demo/src,$PROJECT_DIR/kss-demo-desktop/src,$PROJECT_DIR/kss-demo-web/src,$PROJECT_DIR/kss-lexer/test,$PROJECT_DIR/kss-parser/test" \
+        --input "$PROJECT_DIR/core/src,$PROJECT_DIR/lexer/src,$PROJECT_DIR/parser/src,$PROJECT_DIR/demo/shared/src,$PROJECT_DIR/demo/desktop/src,$PROJECT_DIR/demo/web/src,$PROJECT_DIR/lexer/test,$PROJECT_DIR/parser/test" \
         --config "$PROJECT_DIR/detekt.yml" \
         --plugins "$COMPOSE_RULES_DETEKT_JAR" \
         --build-upon-default-config \

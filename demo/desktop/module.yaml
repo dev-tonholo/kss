@@ -2,13 +2,13 @@ product:
   type: jvm/app
 
 apply:
-  - ../kss.module-template.yaml
+  - ../../kss.module-template.yaml
 
 settings:
   compose:
     enabled: true
 
 dependencies:
-  - ../kss-demo
+  - ../shared
   - $compose.desktop.currentOs
   - $libs.org.jetbrains.kotlinx.coroutinesSwing
