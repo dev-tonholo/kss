@@ -2,6 +2,7 @@ modules:
   - core
   - lexer
   - parser
+  - bom
   - demo/shared
   - demo/desktop
   - demo/web

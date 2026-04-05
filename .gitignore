@@ -18,3 +18,4 @@ node_modules/
 Thumbs.db
 
 .playwright-mcp
+local.properties

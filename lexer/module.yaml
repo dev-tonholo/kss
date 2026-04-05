@@ -11,5 +11,12 @@ product:
 apply:
   - ../kss.module-template.yaml
 
+settings:
+  publishing:
+    enabled: true
+    group: "dev.tonholo.kss"
+    version: "1.0.0"
+    name: "kss-lexer"
+
 dependencies:
   - ../core: exported
