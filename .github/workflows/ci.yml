@@ -29,7 +29,13 @@ jobs:
           key: amper-${{ runner.os }}-${{ hashFiles('amper') }}
 
       - name: Create local.properties
-        run: touch local.properties
+        run: |
+          cat <<'PROPS' > local.properties
+          sonatype.username=unused
+          sonatype.password=unused
+          github.username=unused
+          github.token=unused
+          PROPS
 
       - name: Build
         run: ./amper build
@@ -53,7 +59,13 @@ jobs:
           key: amper-${{ runner.os }}-${{ hashFiles('amper') }}
 
       - name: Create local.properties
-        run: touch local.properties
+        run: |
+          cat <<'PROPS' > local.properties
+          sonatype.username=unused
+          sonatype.password=unused
+          github.username=unused
+          github.token=unused
+          PROPS
 
       - name: Test
         run: ./amper test
