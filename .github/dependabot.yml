@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/publishing"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "type: dependency"
+      - "type: gradle"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "type: dependency"
+      - "type: ci"
