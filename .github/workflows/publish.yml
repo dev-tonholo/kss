@@ -27,6 +27,9 @@ jobs:
           path: .amper/
           key: amper-${{ runner.os }}-${{ hashFiles('amper') }}
 
+      - name: Create local.properties
+        run: touch local.properties
+
       - name: Build
         run: ./amper build
 
