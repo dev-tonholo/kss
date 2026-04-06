@@ -19,3 +19,8 @@ Thumbs.db
 
 .playwright-mcp
 local.properties
+
+# Publishing wrapper
+publishing/build/
+publishing/.gradle/
+publishing/local.properties
