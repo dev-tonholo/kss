@@ -38,14 +38,22 @@ fi
 echo "Bumping version: $CURRENT_VERSION -> $NEW_VERSION"
 
 # 1. Update the single source of truth (template).
-sed -i '' "s/version: \"$CURRENT_VERSION\"/version: \"$NEW_VERSION\"/" "$TEMPLATE"
+CURRENT_VERSION="$CURRENT_VERSION" NEW_VERSION="$NEW_VERSION" perl -pi -e '
+    $old = quotemeta($ENV{CURRENT_VERSION});
+    $new = $ENV{NEW_VERSION};
+    s/version: "$old"/version: "$new"/;
+' "$TEMPLATE"
 echo "  Updated kss.module-template.yaml"
 
 # 2. Update documentation references.
 for file in README.md .ai/guidelines.md; do
     filepath="$PROJECT_DIR/$file"
     if [[ -f "$filepath" ]]; then
-        sed -i '' "s/$CURRENT_VERSION/$NEW_VERSION/g" "$filepath"
+        CURRENT_VERSION="$CURRENT_VERSION" NEW_VERSION="$NEW_VERSION" perl -pi -e '
+            $old = quotemeta($ENV{CURRENT_VERSION});
+            $new = $ENV{NEW_VERSION};
+            s/$old/$new/g;
+        ' "$filepath"
         echo "  Updated $file"
     fi
 done

@@ -187,12 +187,9 @@ class ValueConsumer(
             }
             arguments += consume(iterator = this)
         } while (next.kind != CssTokenKind.CloseParenthesis)
-        val endOffset =
-            if (arguments.isEmpty()) {
-                checkNotNull(closeParen).endOffset
-            } else {
-                arguments.last().location.end + 1
-            }
+        val endOffset = checkNotNull(closeParen) {
+            "Missing closing parenthesis for function '$name'"
+        }.endOffset
         return Value.Function(
             location =
                 CssLocation(

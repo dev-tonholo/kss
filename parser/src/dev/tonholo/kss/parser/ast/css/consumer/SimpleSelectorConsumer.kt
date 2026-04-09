@@ -53,7 +53,10 @@ class SimpleSelectorConsumer(
             CssTokenKind.OpenSquareBracket -> {
                 val nameToken = iterator.expectNextToken(kind = CssTokenKind.Ident)
                 val name = content.substring(nameToken.startOffset, endIndex = nameToken.endOffset)
-                val afterName = iterator.expectNextTokenNotNull()
+                var afterName = iterator.expectNextTokenNotNull()
+                if (afterName.kind == CssTokenKind.WhiteSpace) {
+                    afterName = iterator.expectNextTokenNotNull()
+                }
                 val matcher: String?
                 val value: String?
                 val endToken: Token<out CssTokenKind>
@@ -63,9 +66,18 @@ class SimpleSelectorConsumer(
                     endToken = afterName
                 } else {
                     matcher = buildAttributeMatcher(afterName, iterator)
-                    val valueToken = iterator.expectNextTokenNotNull()
+                    var valueToken = iterator.expectNextTokenNotNull()
+                    if (valueToken.kind == CssTokenKind.WhiteSpace) {
+                        valueToken = iterator.expectNextTokenNotNull()
+                    }
                     value = extractAttributeValue(valueToken)
-                    endToken = iterator.expectNextToken(kind = CssTokenKind.CloseSquareBracket)
+                    val nextToken = iterator.expectNextTokenNotNull()
+                    if (nextToken.kind == CssTokenKind.WhiteSpace) {
+                        endToken = iterator.expectNextToken(kind = CssTokenKind.CloseSquareBracket)
+                    } else {
+                        iterator.expectToken(kind = CssTokenKind.CloseSquareBracket)
+                        endToken = nextToken
+                    }
                 }
                 Selector.Attribute(
                     location = calculateLocation(current.startOffset, endToken.endOffset),
