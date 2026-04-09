@@ -25,7 +25,10 @@ class DirectTokenConsumer(
             CssTokenKind.Tilde,
             CssTokenKind.Plus,
             CssTokenKind.Bang,
-            CssTokenKind.Percent
+            CssTokenKind.Percent,
+            CssTokenKind.Pipe,
+            CssTokenKind.Caret,
+            CssTokenKind.Dollar
         )
 
     override fun accept(kind: CssTokenKind): Boolean =

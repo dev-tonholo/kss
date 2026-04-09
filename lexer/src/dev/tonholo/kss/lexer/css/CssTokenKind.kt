@@ -25,6 +25,9 @@ enum class CssTokenKind(
     Percent(representation = setOf('%')),
     Bang(representation = setOf('!')),
     Equals(representation = setOf('=')),
+    Pipe(representation = setOf('|')),
+    Caret(representation = setOf('^')),
+    Dollar(representation = setOf('$')),
     Ident,
     Hash(representation = setOf('#')),
 

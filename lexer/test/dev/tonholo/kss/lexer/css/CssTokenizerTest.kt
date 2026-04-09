@@ -1448,6 +1448,63 @@ class CssTokenizerTest {
         assertTokens(content, expected)
     }
 
+    @Test
+    fun `given attribute selector with pipe operator - when tokenizing - then creates Pipe token`() {
+        // Arrange
+        val content = "[lang|=en]"
+        val expected =
+            listOf(
+                Token(kind = CssTokenKind.OpenSquareBracket, startOffset = 0, endOffset = 1),
+                Token(kind = CssTokenKind.Ident, startOffset = 1, endOffset = 5),
+                Token(kind = CssTokenKind.Pipe, startOffset = 5, endOffset = 6),
+                Token(kind = CssTokenKind.Equals, startOffset = 6, endOffset = 7),
+                Token(kind = CssTokenKind.Ident, startOffset = 7, endOffset = 9),
+                Token(kind = CssTokenKind.CloseSquareBracket, startOffset = 9, endOffset = 10),
+                Token(kind = CssTokenKind.EndOfFile, startOffset = 10, endOffset = 10)
+            )
+
+        // Act / Assert
+        assertTokens(content, expected)
+    }
+
+    @Test
+    fun `given attribute selector with caret operator - when tokenizing - then creates Caret token`() {
+        // Arrange
+        val content = "[class^=btn]"
+        val expected =
+            listOf(
+                Token(kind = CssTokenKind.OpenSquareBracket, startOffset = 0, endOffset = 1),
+                Token(kind = CssTokenKind.Ident, startOffset = 1, endOffset = 6),
+                Token(kind = CssTokenKind.Caret, startOffset = 6, endOffset = 7),
+                Token(kind = CssTokenKind.Equals, startOffset = 7, endOffset = 8),
+                Token(kind = CssTokenKind.Ident, startOffset = 8, endOffset = 11),
+                Token(kind = CssTokenKind.CloseSquareBracket, startOffset = 11, endOffset = 12),
+                Token(kind = CssTokenKind.EndOfFile, startOffset = 12, endOffset = 12)
+            )
+
+        // Act / Assert
+        assertTokens(content, expected)
+    }
+
+    @Test
+    fun `given attribute selector with dollar operator - when tokenizing - then creates Dollar token`() {
+        // Arrange
+        val content = "[src$=png]"
+        val expected =
+            listOf(
+                Token(kind = CssTokenKind.OpenSquareBracket, startOffset = 0, endOffset = 1),
+                Token(kind = CssTokenKind.Ident, startOffset = 1, endOffset = 4),
+                Token(kind = CssTokenKind.Dollar, startOffset = 4, endOffset = 5),
+                Token(kind = CssTokenKind.Equals, startOffset = 5, endOffset = 6),
+                Token(kind = CssTokenKind.Ident, startOffset = 6, endOffset = 9),
+                Token(kind = CssTokenKind.CloseSquareBracket, startOffset = 9, endOffset = 10),
+                Token(kind = CssTokenKind.EndOfFile, startOffset = 10, endOffset = 10)
+            )
+
+        // Act / Assert
+        assertTokens(content, expected)
+    }
+
     private fun assertTokens(
         content: String,
         tokens: List<Token<out CssTokenKind>>,
