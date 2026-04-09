@@ -175,18 +175,24 @@ class ValueConsumer(
 
         val arguments = mutableListOf<Value>()
         expectNextToken(kind = CssTokenKind.OpenParenthesis)
+        var closeParen = current()
         do {
             val next = expectNextTokenNotNull()
             if (next.kind == CssTokenKind.Comma || next.kind == CssTokenKind.WhiteSpace) {
                 continue
             }
             if (next.kind == CssTokenKind.CloseParenthesis) {
+                closeParen = next
                 break
             }
             arguments += consume(iterator = this)
         } while (next.kind != CssTokenKind.CloseParenthesis)
-        val last = arguments.last()
-        val endOffset = last.location.end + 1
+        val endOffset =
+            if (arguments.isEmpty()) {
+                checkNotNull(closeParen).endOffset
+            } else {
+                arguments.last().location.end + 1
+            }
         return Value.Function(
             location =
                 CssLocation(

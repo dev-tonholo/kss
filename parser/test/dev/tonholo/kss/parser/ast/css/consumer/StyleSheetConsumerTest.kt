@@ -1135,6 +1135,118 @@ class StyleSheetConsumerTest {
         assertEquals(expected, actual)
     }
 
+    @Test
+    fun `given function with no arguments - when consuming - then creates Function with empty args`() {
+        // Arrange
+        val content = "div { content: attr(); }"
+        val tokens =
+            listOf(
+                Token(kind = CssTokenKind.Ident, startOffset = 0, endOffset = 3),
+                Token(kind = CssTokenKind.WhiteSpace, startOffset = 3, endOffset = 4),
+                Token(kind = CssTokenKind.OpenCurlyBrace, startOffset = 4, endOffset = 5),
+                Token(kind = CssTokenKind.WhiteSpace, startOffset = 5, endOffset = 6),
+                Token(kind = CssTokenKind.Ident, startOffset = 6, endOffset = 13),
+                Token(kind = CssTokenKind.Colon, startOffset = 13, endOffset = 14),
+                Token(kind = CssTokenKind.WhiteSpace, startOffset = 14, endOffset = 15),
+                Token(kind = CssTokenKind.Function, startOffset = 15, endOffset = 19),
+                Token(kind = CssTokenKind.OpenParenthesis, startOffset = 19, endOffset = 20),
+                Token(kind = CssTokenKind.CloseParenthesis, startOffset = 20, endOffset = 21),
+                Token(kind = CssTokenKind.Semicolon, startOffset = 21, endOffset = 22),
+                Token(kind = CssTokenKind.WhiteSpace, startOffset = 22, endOffset = 23),
+                Token(kind = CssTokenKind.CloseCurlyBrace, startOffset = 23, endOffset = 24),
+                Token(kind = CssTokenKind.EndOfFile, startOffset = 24, endOffset = 24)
+            )
+        val consumer = buildStyleSheetConsumer(content = content)
+        val iterator = CssIterator(tokens)
+        val expected =
+            StyleSheet(
+                location =
+                    CssLocation(
+                        source = content,
+                        start = 0,
+                        end = content.length
+                    ),
+                children =
+                    listOf(
+                        QualifiedRule(
+                            location =
+                                CssLocation(
+                                    source = content,
+                                    start = 0,
+                                    end = content.length
+                                ),
+                            prelude =
+                                Prelude.Selector(
+                                    components =
+                                        listOf(
+                                            SelectorListItem(
+                                                location =
+                                                    CssLocation(
+                                                        source = content.substring(0, 3),
+                                                        start = 0,
+                                                        end = 3
+                                                    ),
+                                                selectors =
+                                                    listOf(
+                                                        Selector.Type(
+                                                            location =
+                                                                CssLocation(
+                                                                    source = content.substring(0, 3),
+                                                                    start = 0,
+                                                                    end = 3
+                                                                ),
+                                                            name = "div"
+                                                        )
+                                                    )
+                                            )
+                                        )
+                                ),
+                            block =
+                                Block.SimpleBlock(
+                                    location =
+                                        CssLocation(
+                                            source = content.substring(4),
+                                            start = 4,
+                                            end = content.length
+                                        ),
+                                    children =
+                                        listOf(
+                                            Declaration(
+                                                location =
+                                                    CssLocation(
+                                                        source = content.substring(6, 22),
+                                                        start = 6,
+                                                        end = 22
+                                                    ),
+                                                property = "content",
+                                                important = false,
+                                                values =
+                                                    listOf(
+                                                        Value.Function(
+                                                            location =
+                                                                CssLocation(
+                                                                    source = content.substring(15, 21),
+                                                                    start = 15,
+                                                                    end = 21
+                                                                ),
+                                                            name = "attr",
+                                                            arguments = emptyList()
+                                                        )
+                                                    )
+                                            )
+                                        )
+                                )
+                        )
+                    )
+            )
+
+        // Act
+        val actual = consumer.consume(iterator)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
     private fun buildStyleSheetConsumer(content: String): StyleSheetConsumer {
         val simpleSelectorConsumer =
             SimpleSelectorConsumer(
