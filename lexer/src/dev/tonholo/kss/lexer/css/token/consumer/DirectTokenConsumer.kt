@@ -17,7 +17,10 @@ class DirectTokenConsumer(
             CssTokenKind.OpenCurlyBrace,
             CssTokenKind.CloseCurlyBrace,
             CssTokenKind.OpenParenthesis,
-            CssTokenKind.CloseParenthesis
+            CssTokenKind.CloseParenthesis,
+            CssTokenKind.OpenSquareBracket,
+            CssTokenKind.CloseSquareBracket,
+            CssTokenKind.Equals
         )
 
     override fun accept(kind: CssTokenKind): Boolean =

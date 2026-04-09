@@ -24,6 +24,7 @@ enum class CssTokenKind(
     Greater(representation = setOf('>')),
     Percent(representation = setOf('%')),
     Bang(representation = setOf('!')),
+    Equals(representation = setOf('=')),
     Ident,
     Hash(representation = setOf('#')),
 

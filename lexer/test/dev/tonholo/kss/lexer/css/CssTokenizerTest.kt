@@ -1289,6 +1289,65 @@ class CssTokenizerTest {
         assertTokens(params.content, params.tokens)
     }
 
+    @Test
+    fun `given attribute selector with equals - when tokenizing - then creates valid tokens`() {
+        // Arrange
+        val content = "[fill=blue]"
+        val expected =
+            listOf(
+                Token(kind = CssTokenKind.OpenSquareBracket, startOffset = 0, endOffset = 1),
+                Token(kind = CssTokenKind.Ident, startOffset = 1, endOffset = 5),
+                Token(kind = CssTokenKind.Equals, startOffset = 5, endOffset = 6),
+                Token(kind = CssTokenKind.Ident, startOffset = 6, endOffset = 10),
+                Token(kind = CssTokenKind.CloseSquareBracket, startOffset = 10, endOffset = 11),
+                Token(kind = CssTokenKind.EndOfFile, startOffset = 11, endOffset = 11)
+            )
+
+        // Act / Assert
+        assertTokens(content, expected)
+    }
+
+    @Test
+    fun `given pseudo-class with attribute selector - when tokenizing - then creates correct token sequence`() {
+        // Arrange
+        val content = "path:not([fill=blue])"
+        val expected =
+            listOf(
+                Token(kind = CssTokenKind.Ident, startOffset = 0, endOffset = 4),
+                Token(kind = CssTokenKind.Colon, startOffset = 4, endOffset = 5),
+                Token(kind = CssTokenKind.Ident, startOffset = 5, endOffset = 8),
+                Token(kind = CssTokenKind.OpenParenthesis, startOffset = 8, endOffset = 9),
+                Token(kind = CssTokenKind.OpenSquareBracket, startOffset = 9, endOffset = 10),
+                Token(kind = CssTokenKind.Ident, startOffset = 10, endOffset = 14),
+                Token(kind = CssTokenKind.Equals, startOffset = 14, endOffset = 15),
+                Token(kind = CssTokenKind.Ident, startOffset = 15, endOffset = 19),
+                Token(kind = CssTokenKind.CloseSquareBracket, startOffset = 19, endOffset = 20),
+                Token(kind = CssTokenKind.CloseParenthesis, startOffset = 20, endOffset = 21),
+                Token(kind = CssTokenKind.EndOfFile, startOffset = 21, endOffset = 21)
+            )
+
+        // Act / Assert
+        assertTokens(content, expected)
+    }
+
+    @Test
+    fun `given attribute selector with quoted value - when tokenizing - then creates valid tokens`() {
+        // Arrange
+        val content = """[type="password"]"""
+        val expected =
+            listOf(
+                Token(kind = CssTokenKind.OpenSquareBracket, startOffset = 0, endOffset = 1),
+                Token(kind = CssTokenKind.Ident, startOffset = 1, endOffset = 5),
+                Token(kind = CssTokenKind.Equals, startOffset = 5, endOffset = 6),
+                Token(kind = CssTokenKind.String, startOffset = 6, endOffset = 16),
+                Token(kind = CssTokenKind.CloseSquareBracket, startOffset = 16, endOffset = 17),
+                Token(kind = CssTokenKind.EndOfFile, startOffset = 17, endOffset = 17)
+            )
+
+        // Act / Assert
+        assertTokens(content, expected)
+    }
+
     private fun assertTokens(
         content: String,
         tokens: List<Token<out CssTokenKind>>,
