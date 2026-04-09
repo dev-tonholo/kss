@@ -62,7 +62,7 @@ class SimpleSelectorConsumer(
                     value = null
                     endToken = afterName
                 } else {
-                    matcher = content.substring(afterName.startOffset, endIndex = afterName.endOffset)
+                    matcher = buildAttributeMatcher(afterName, iterator)
                     val valueToken = iterator.expectNextTokenNotNull()
                     value = extractAttributeValue(valueToken)
                     endToken = iterator.expectNextToken(kind = CssTokenKind.CloseSquareBracket)
@@ -114,6 +114,27 @@ class SimpleSelectorConsumer(
                 iterator.parserError(content, "Unexpected token ${current.kind}")
             }
         }
+    }
+
+    private val compoundMatcherPrefixes =
+        setOf(
+            CssTokenKind.Tilde,
+            CssTokenKind.Pipe,
+            CssTokenKind.Caret,
+            CssTokenKind.Dollar,
+            CssTokenKind.Asterisk
+        )
+
+    private fun buildAttributeMatcher(
+        firstToken: Token<out CssTokenKind>,
+        iterator: AstParserIterator<CssTokenKind>,
+    ): String {
+        val prefix = content.substring(firstToken.startOffset, endIndex = firstToken.endOffset)
+        if (firstToken.kind in compoundMatcherPrefixes) {
+            val equalsToken = iterator.expectNextToken(kind = CssTokenKind.Equals)
+            return prefix + content.substring(equalsToken.startOffset, endIndex = equalsToken.endOffset)
+        }
+        return prefix
     }
 
     private fun extractAttributeValue(token: Token<out CssTokenKind>): String {
