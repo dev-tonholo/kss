@@ -54,15 +54,16 @@ class CssTokenizer(
             while (iterator.hasNext()) {
                 val progressOffset = iterator.offset
                 val kind = iterator.getTokenKind() ?: CssTokenKind.Ident
-                val token =
-                    consumers
-                        .firstOrNull { consumer -> consumer.accept(kind) }
-                        ?.consume(kind)
+                val consumer =
+                    consumers.firstOrNull { it.accept(kind) }
                         ?: error("Unsupported token kind: $kind at position ${iterator.offset}")
+
+                val token = consumer.consume(kind)
 
                 check(iterator.offset > progressOffset) {
                     "CssTokenizer made no progress at offset $progressOffset on " +
-                        "character '${input[progressOffset]}' (kind=$kind)"
+                        "character '${input[progressOffset]}' (kind=$kind) " +
+                        "via ${consumer::class.simpleName}"
                 }
 
                 addAll(token)
