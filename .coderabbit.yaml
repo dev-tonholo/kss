@@ -1,0 +1,56 @@
+language: "en"
+early_access: false
+reviews:
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  path_filters:
+    # Static analysis configs (reviewed manually, noisy diffs)
+    - "!**/detekt.yml"
+    - "!**/detekt-baseline.xml"
+    - "!**/.editorconfig"
+    # Build-tool wrappers (vendored, not hand-written)
+    - "!**/gradlew"
+    - "!**/gradlew.bat"
+    - "!**/gradle/wrapper/**"
+    - "!**/amper"
+    - "!**/amper.bat"
+    # Build outputs and caches (gitignored; defensive)
+    - "!**/build/**"
+    - "!**/.amper/**"
+    - "!**/.cache/**"
+    - "!**/.gradle/**"
+    - "!**/.kotlin/**"
+    - "!**/node_modules/**"
+    # IDE / tool config
+    - "!**/.idea/**"
+    - "!**/.fleet/**"
+    - "!**/.run/**"
+    - "!**/*.iml"
+    - "!**/.playwright-mcp/**"
+    # Local env / secrets
+    - "!**/local.properties"
+    - "!**/gradle.properties"
+    # Legal / boilerplate docs (rarely benefit from AI review)
+    - "!LICENSE"
+    - "!CODE_OF_CONDUCT.md"
+    # Binary assets
+    - "!**/*.png"
+    - "!**/*.jpg"
+    - "!**/*.jpeg"
+    - "!**/*.gif"
+    - "!**/*.webp"
+    - "!**/*.ico"
+    - "!**/*.pdf"
+    # Generated Dokka output
+    - "!**/dokka/**"
+  auto_review:
+    enabled: true
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+    drafts: false
+chat:
+  auto_reply: true
