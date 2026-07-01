@@ -36,7 +36,7 @@ jobs:
           java-version: 17
 
       - name: Cache lint tools
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .cache/
           key: lint-${{ runner.os }}-ktlint1.8.0-detekt2.0.0a2-compose0.5.6
