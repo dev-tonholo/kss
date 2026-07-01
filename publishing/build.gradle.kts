@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform") version "2.3.20" apply false
-    id("com.vanniktech.maven.publish") version "0.36.0" apply false
+    id("com.vanniktech.maven.publish") version "0.37.0" apply false
 }
 
 // Read group and version from the shared Amper template (single source of truth).
